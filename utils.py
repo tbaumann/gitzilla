@@ -36,7 +36,7 @@ def execute(asCommand, bSplitLines=False, bIgnoreErrors=False):
   return data
 
 
-def init_bugzilla(sBZUrl, sBZUser, sBZPasswd):
+def init_bugzilla(sBZUrl, sBZUser, sBZPasswd, sBZHTTPUser, sBZHTTPPasswd):
   """
   initializes and returns a bugz.bugzilla.Bugz instance.
 
@@ -46,7 +46,7 @@ def init_bugzilla(sBZUrl, sBZUser, sBZPasswd):
   if sBZUrl is None:
     raise ValueError("No Bugzilla URL specified")
 
-  oBZ = bugz.bugzilla.Bugz(sBZUrl, user=sBZUser, password=sBZPasswd)
+  oBZ = bugz.bugzilla.Bugz(sBZUrl, user=sBZUser, password=sBZPasswd, httpuser=sBZHTTPUser, httppassword=sBZHTTPPasswd)
   return oBZ
 
 
@@ -99,14 +99,14 @@ def get_changes(sOldRev, sNewRev, sFormatSpec, sSeparator, bIncludeDiffStat, sRe
 
 
 
-def post_to_bugzilla(iBugId, sComment, sBZUrl, sBZUser, sBZPasswd):
+def post_to_bugzilla(iBugId, sComment, sBZUrl, sBZUser, sBZPasswd, sBZHTTPUser, sBZHTTPPasswd ):
   """
   posts the comment to the given bug id.
   """
   if sBZUrl is None:
     raise ValueError("No Bugzilla URL specified")
 
-  oBZ = bugz.bugzilla.Bugz(sBZUrl, user=sBZUser, password=sBZPasswd)
+  oBZ = bugz.bugzilla.Bugz(sBZUrl, user=sBZUser, password=sBZPasswd, httpuser=sBZHTTPUser, httppassword=sBZHTTPPasswd)
   oBZ.modify(iBugId, comment=sComment)
 
 

@@ -240,6 +240,13 @@ Optional parameters
 
         can be ``info`` or ``debug``. Defaults to ``debug``.
 
+  - http_user
+
+        Basic Auth username if required
+
+  - http_password
+
+        Basic Auth password if required
 
 Security note
 -------------

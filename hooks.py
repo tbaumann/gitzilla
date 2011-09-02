@@ -12,7 +12,7 @@ from gitzilla import NullLogger
 import traceback
 
 
-def post_receive(sBZUrl, sBZUser=None, sBZPasswd=None, sFormatSpec=None, oBugRegex=None, sSeparator=None, logger=None, bz_init=None, sRefPrefix=None, bIncludeDiffStat=True, aasPushes=None):
+def post_receive(sBZUrl, sBZUser=None, sBZPasswd=None, sBZHTTPUser=None, sBZHTTPPasswd=None, sFormatSpec=None, oBugRegex=None, sSeparator=None, logger=None, bz_init=None, sRefPrefix=None, bIncludeDiffStat=True, aasPushes=None):
   """
   a post-recieve hook handler which extracts bug ids and adds the commit
   info to the comment. If multiple bug ids are found, the comment is added
@@ -77,7 +77,7 @@ def post_receive(sBZUrl, sBZUser=None, sBZPasswd=None, sFormatSpec=None, oBugReg
   if sRefPrefix is None:
     sRefPrefix = sDefaultRefPrefix
 
-  oBZ = bz_init(sBZUrl, sBZUser, sBZPasswd)
+  oBZ = bz_init(sBZUrl, sBZUser, sBZPasswd, sBZHTTPUser, sBZHTTPPasswd)
 
   def gPushes():
     for sLine in iter(sys.stdin.readline, ""):
@@ -114,7 +114,7 @@ def post_receive(sBZUrl, sBZUser=None, sBZPasswd=None, sFormatSpec=None, oBugReg
 
 
 
-def update(oBugRegex=None, asAllowedStatuses=None, sSeparator=None, sBZUrl=None, sBZUser=None, sBZPasswd=None, logger=None, bz_init=None, sRefPrefix=None, bRequireBugNumber=True):
+def update(oBugRegex=None, asAllowedStatuses=None, sSeparator=None, sBZUrl=None, sBZUser=None, sBZPasswd=None, sBZHTTPUser=None, sBZHTTPPasswd=None, logger=None, bz_init=None, sRefPrefix=None, bRequireBugNumber=True):
   """
   an update hook handler which rejects commits without a bug reference.
   This looks at the sys.argv array, so make sure you don't modify it before
@@ -181,7 +181,7 @@ def update(oBugRegex=None, asAllowedStatuses=None, sSeparator=None, sBZUrl=None,
       raise ValueError("Bugzilla info required for status checks")
 
   # create and cache bugzilla instance
-  oBZ = bz_init(sBZUrl, sBZUser, sBZPasswd)
+  oBZ = bz_init(sBZUrl, sBZUser, sBZPasswd, sBZHTTPUser, sBZHTTPPasswd)
   # check auth
   try:
     oBZ.auth()
